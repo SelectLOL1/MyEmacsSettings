@@ -1,0 +1,64 @@
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+(elpy-enable)
+
+(put 'set-goal-column 'disabled nil)
+(desktop-save-mode 1)
+(show-paren-mode 1)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(setq column-number-mode t)
+;; (setq ediff-diff-options "-w")
+
+(setq compile-command "make -C ~/901endtest/firmware_interface/proj -f Makefile")
+(defvar gud-gdb-command-name "arm-none-eabi-gdb")
+(setq gud-gdb-command-name "arm-none-eabi-gdb -i=mi --annotate=1 ")
+
+(server-start)
+(define-key global-map (kbd "M-g") 'goto-line)
+(setq send-mail-function 'mailclient-send-it)
+(setq calendar-week-start-day 1)
+(copy-face font-lock-constant-face 'calendar-iso-week-face)
+(set-face-attribute 'calendar-iso-week-face nil
+                    :height 0.7)
+(setq calendar-intermonth-text
+      '(propertize
+        (format "%2d"
+                (car
+                 (calendar-iso-from-absolute
+                  (calendar-absolute-from-gregorian (list month day year)))))
+        'font-lock-face 'calendar-iso-week-face))
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(load-theme 'manoj-dark)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(grep-find-ignored-directories
+   (quote
+    ("SCCS" "RCS" "CVS" "MCVS" ".src" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}" "*anaconda*")))
+  '(elpy-modules
+   (quote
+    (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
+ '(package-selected-packages (quote (magit-annex magit elpy))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+(with-eval-after-load 'info
+  (info-initialize)
+  (add-to-list 'Info-directory-list
+               "~/.emacs.d/site-lisp/magit/Documentation/"))
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(setq elpy-shell-use-project-root nil)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
